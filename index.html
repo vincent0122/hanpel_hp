@@ -1,0 +1,137 @@
+<!--@layout(/layout/basic/layout.html)-->
+
+<!--@css(/layout/basic/css/main.css)-->
+<!--@js(/layout/basic/js/lenis.js)-->
+<!--@js(/layout/basic/js/gsap.js)-->
+<!--@js(/layout/basic/js/scrollTrigger.js)-->
+<!--@js(/layout/basic/js/main.js)-->
+
+<!-- 팝업 html 추가 -->
+<!--@import(/popup/pop_swp.html)-->
+<!--import(/popup/notice.html)-->
+
+
+<section class="section1">
+    <div class="swiper main-video-swiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <video src="https://raw.githubusercontent.com/vincent0122/hanpel_hp/main/1stpart.mp4" playsinline muted></video>
+            </div>
+            <div class="swiper-slide">
+                <video src="https://raw.githubusercontent.com/vincent0122/hanpel_hp/main/2ndpart.mp4" playsinline muted></video>
+            </div>
+            <div class="swiper-slide"><img src="https://raw.githubusercontent.com/vincent0122/hanpel_hp/main/IMG_5192.jpeg" alt="Description"></div>
+        </div>
+        
+	<!-- 버튼제거
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+	-->
+        <div class="swiper-pagination"></div>
+    </div>
+
+    <div df-banner-code="main-font" hidden class="main-title">
+        <strong>HANPEL - Safe for Animals, Driven by Tech.</strong>
+        <p class="desc">
+            HANPEL makes natural pellet binders that never harm animals. 
+            Using smart, simple technology, we create high-quality solutions for a better environment. 
+            Reliable products from a team that cares.
+        </p>
+        <div df-banner-clone class="content">{#item}</div>
+    </div>
+</section>
+
+<div class="section-mq">
+    <div class="wrap">
+        <span>Natural Pellet Binder</span>
+        <span>Natural Pellet Binder</span>
+        <span>Natural Pellet Binder</span>
+        <span>Natural Pellet Binder</span>        
+    </div>
+</div>
+
+
+<!-- 배너 관리 [콜렉션+머스트헤브]-->
+<section class="section2" df-banner-code="banner"  hidden>
+    <div class="item" df-banner-clone>
+        <a href="{#href}" target="{#target}">
+            <div class="thumb">{#item}</div>
+            <div class="text-area">
+                <h3 class="title">{#title}</h3>
+                <span class="link">DETAIL</span>
+            </div>
+        </a>
+    </div>
+</section>
+
+<section class="section2" df-banner-code="banner2" hidden>
+    <div class="item" df-banner-clone>
+        <a href="{#href}" target="{#target}">
+            <div class="thumb">{#item}</div>
+            <div class="text-area">
+                <h3 class="title">{#title}</h3>
+                <span class="link">DETAIL</span>
+            </div>
+        </a>
+    </div>
+</section>
+
+
+<section class="prd-sect section3 ec-base-product">
+    <div class="content-inner">
+        <div class="group-headline">
+            <h2>PROVEN SOLUTIONS</h2>
+            <!-- href="여기" 안에다가 링크를 넣어주세요! -->
+            <a href="/product/list.html?cate_no=24">VIEW ALL</a>
+        </div>
+        
+    </div>
+</section>
+
+
+<section class="prd-sect section4 ec-base-product">
+    <div class="content-inner">
+        <div class="group-headline">
+            <h2>CERTIFICATIONS</h2>
+            <!-- href="여기" 안에다가 링크를 넣어주세요! -->
+            <a href="/product/list.html?cate_no=24">VIEW ALL</a>
+        </div>
+        
+    </div>
+</section>
+
+
+<section class="sc-video">
+    <video src="https://tjeodnjsdlwl.github.io/wdwdwd/sd.mp4" autoplay playsinline muted loop></video>
+</section>
+
+
+<section class="prd-sect sc-insta"  >
+    <div class="group-headline">
+        <h2>PARTNERS</h2>
+        <!-- href="여기" 안에다가 링크를 넣어주세요! -->
+        <a href="" target="_blank">VIEW ALL</a>
+    </div>
+    <div class="swiper" df-banner-code="insta" hidden>
+        <div class="swiper-wrapper">
+            <div df-banner-clone class="swiper-slide">
+                <a href="{#href}">
+                    <div class="thumb">{#item}</div>
+                    <!-- <p>{#title}</p> -->
+                </a>
+            </div>
+        </div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+<!--@define(cmc_log)-->
+
