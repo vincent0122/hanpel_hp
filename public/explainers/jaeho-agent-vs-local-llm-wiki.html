@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agent vs Local LLM Wiki — 장재호님용 설명</title>
+  <style>
+    :root{
+      --bg:#0b1020; --panel:#11182d; --panel2:#17213c; --ink:#eef4ff; --muted:#aebbd4;
+      --blue:#64b5ff; --green:#58d68d; --orange:#ffbd66; --red:#ff7b7b; --purple:#b69cff;
+      --line:rgba(255,255,255,.14); --shadow:0 24px 80px rgba(0,0,0,.42);
+      --radius:24px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",Arial,sans-serif;background:radial-gradient(circle at 20% 0%,#223a72 0,#0b1020 34%,#070a13 100%);color:var(--ink);line-height:1.55}
+    a{color:inherit} .wrap{max-width:1180px;margin:0 auto;padding:28px 22px 80px}
+    .hero{padding:52px 0 34px;position:relative}.eyebrow{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border:1px solid var(--line);border-radius:999px;color:var(--muted);background:rgba(255,255,255,.05);font-size:14px}
+    h1{font-size:clamp(36px,6vw,72px);letter-spacing:-.055em;line-height:1.03;margin:22px 0 18px}.lead{font-size:clamp(18px,2.2vw,24px);color:#d7e4fb;max-width:900px;margin:0}
+    .nav{position:sticky;top:0;z-index:10;margin:22px -22px 34px;padding:12px 22px;background:rgba(8,12,24,.78);backdrop-filter:blur(16px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;gap:10px;overflow-x:auto}.nav a{white-space:nowrap;text-decoration:none;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);color:#dce7ff;font-weight:700;font-size:14px}.nav a:hover{background:rgba(100,181,255,.18);border-color:rgba(100,181,255,.45)}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}.card{background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.035));border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px}.span6{grid-column:span 6}.span4{grid-column:span 4}.span8{grid-column:span 8}.span12{grid-column:span 12}.kicker{font-weight:800;color:var(--blue);font-size:14px;text-transform:uppercase;letter-spacing:.08em}h2{font-size:34px;line-height:1.1;letter-spacing:-.04em;margin:8px 0 16px}h3{font-size:22px;margin:0 0 12px;letter-spacing:-.02em}.muted{color:var(--muted)}
+    .bigicon{font-size:46px;margin-bottom:10px}.pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:6px 10px;color:#dce7ff;background:rgba(255,255,255,.06);font-size:13px;margin:3px}.good{color:var(--green)}.warn{color:var(--orange)}.bad{color:var(--red)}.purple{color:var(--purple)}
+    .flow{display:grid;grid-template-columns:1fr 58px 1fr 58px 1fr;gap:12px;align-items:center;margin-top:16px}.node{min-height:150px;border:1px solid var(--line);border-radius:20px;padding:18px;background:rgba(255,255,255,.06)}.arrow{text-align:center;color:var(--blue);font-size:34px;font-weight:900}.node strong{font-size:18px}.node small{display:block;color:var(--muted);margin-top:8px}
+    .compare{display:grid;grid-template-columns:1fr 1fr;gap:18px}.side{border-radius:24px;padding:22px;border:1px solid var(--line)}.agent{background:linear-gradient(160deg,rgba(100,181,255,.18),rgba(255,255,255,.04))}.wiki{background:linear-gradient(160deg,rgba(88,214,141,.18),rgba(255,255,255,.04))}.side ul{padding-left:20px;margin:12px 0 0}.side li{margin:8px 0}
+    .matrix{display:grid;grid-template-columns:1.1fr 1fr 1fr;overflow:hidden;border:1px solid var(--line);border-radius:22px}.matrix div{padding:14px;border-bottom:1px solid var(--line);border-right:1px solid var(--line)}.matrix div:nth-child(3n){border-right:0}.matrix .head{font-weight:900;background:rgba(255,255,255,.1)}.matrix .last{border-bottom:0}
+    details{border:1px solid var(--line);border-radius:18px;padding:16px;background:rgba(255,255,255,.05);margin:12px 0}summary{cursor:pointer;font-weight:900;color:#eaf2ff}details p{color:var(--muted);margin:12px 0 0}.callout{border-left:5px solid var(--blue);background:rgba(100,181,255,.12);padding:18px 20px;border-radius:18px;margin:16px 0}.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}.btn{text-decoration:none;display:inline-flex;align-items:center;gap:8px;border-radius:14px;padding:13px 16px;font-weight:900;border:1px solid var(--line);background:rgba(255,255,255,.08)}.btn.primary{background:linear-gradient(135deg,#64b5ff,#58d68d);color:#06101d;border:0}.mini{font-size:13px;color:var(--muted)}
+    @media(max-width:850px){.span6,.span4,.span8{grid-column:span 12}.compare{grid-template-columns:1fr}.flow{grid-template-columns:1fr}.arrow{transform:rotate(90deg)}.matrix{grid-template-columns:1fr}.matrix div{border-right:0}.matrix .head:nth-child(2),.matrix .head:nth-child(3){display:none}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero" id="top">
+      <div class="eyebrow">⚖️ 장재호님용 · Agent와 Local LLM Wiki 차이</div>
+      <h1>“AI 에이전트”와 “로컬 LLM Wiki”는<br/>경쟁 관계가 아니라 역할이 다릅니다.</h1>
+      <p class="lead">에이전트는 <b>일을 처리하는 실행자</b>, 로컬 LLM Wiki는 <b>장기 기억과 지식 저장소</b>입니다. 가장 좋은 구조는 에이전트가 위키를 읽고 쓰면서, 장재호님의 전문 지식이 계속 축적되는 방식입니다.</p>
+      <div class="cta">
+        <a class="btn primary" href="#one-minute">1분 요약 보기</a>
+        <a class="btn" href="#diagram">그림으로 보기</a>
+        <a class="btn" href="#recommendation">추천 시작안</a>
+      </div>
+    </section>
+
+    <nav class="nav">
+      <a href="#one-minute">1분 요약</a><a href="#agent">Agent</a><a href="#wiki">Local LLM Wiki</a><a href="#diagram">구조도</a><a href="#matrix">비교표</a><a href="#examples">실무 예시</a><a href="#recommendation">추천안</a><a href="#faq">FAQ</a>
+    </nav>
+
+    <section class="grid" id="one-minute">
+      <div class="card span12">
+        <div class="kicker">One-minute answer</div>
+        <h2>한 문장으로 정리</h2>
+        <div class="compare">
+          <div class="side agent">
+            <div class="bigicon">🤖</div>
+            <h3>AI Agent = 업무 대리인</h3>
+            <p class="muted">질문에 답하고, 자료를 찾아보고, 파일을 만들고, 이메일 초안을 쓰고, 반복 업무를 실행합니다.</p>
+            <span class="pill">행동</span><span class="pill">자동화</span><span class="pill">도구 사용</span><span class="pill">워크플로우</span>
+          </div>
+          <div class="side wiki">
+            <div class="bigicon">📚</div>
+            <h3>Local LLM Wiki = 개인/조직 지식 베이스</h3>
+            <p class="muted">원문, 요약, 판단, 링크, 비교표를 Markdown으로 쌓아두는 장기 기억입니다. 내 컴퓨터/서버에 남습니다.</p>
+            <span class="pill">기억</span><span class="pill">출처</span><span class="pill">연결</span><span class="pill">축적</span>
+          </div>
+        </div>
+        <div class="callout"><b>핵심:</b> Agent만 쓰면 대화가 지나가고, Wiki만 있으면 실행력이 부족합니다. <b>Agent + Local LLM Wiki</b>를 붙이면 “일하는 AI + 계속 쌓이는 지식”이 됩니다.</div>
+      </div>
+    </section>
+
+    <section class="grid" id="agent" style="margin-top:18px">
+      <div class="card span6">
+        <div class="kicker">What is an Agent?</div>
+        <h2>Agent는 “오늘 할 일”을 처리합니다</h2>
+        <p class="muted">일반 챗봇보다 한 단계 더 나아가, 도구를 호출하고 여러 단계를 진행하며 결과물을 만듭니다.</p>
+        <ul>
+          <li>자료 조사 → 요약 → 비교 → 초안 작성</li>
+          <li>문서/이메일/계약서 검토 보조</li>
+          <li>웹사이트, 파일, 캘린더, 업무 시스템과 연결</li>
+          <li>반복 업무를 체크리스트처럼 수행</li>
+        </ul>
+      </div>
+      <div class="card span6">
+        <div class="kicker warn">Limitation</div>
+        <h2>하지만 Agent는 기본적으로 “휘발성”입니다</h2>
+        <p class="muted">대화가 길어지거나 세션이 바뀌면 맥락이 사라질 수 있습니다. 그래서 중요한 판단과 출처를 별도 지식 저장소에 남겨야 합니다.</p>
+        <details open><summary>Agent만 쓸 때 생기는 문제</summary><p>같은 설명을 반복해야 하고, 과거 판단 근거를 찾기 어렵고, 여러 문서를 연결한 장기 맥락이 약해집니다.</p></details>
+      </div>
+    </section>
+
+    <section class="grid" id="wiki" style="margin-top:18px">
+      <div class="card span6">
+        <div class="kicker good">What is Local LLM Wiki?</div>
+        <h2>Local LLM Wiki는 “쌓이는 기억”입니다</h2>
+        <p class="muted">Karpathy식 LLM Wiki는 자료를 단순 저장하는 폴더가 아니라, 서로 연결된 Markdown 지식망입니다.</p>
+        <ul>
+          <li><b>raw/</b>: 원문 보관 — 기사, PDF, 메모, 회의록</li>
+          <li><b>entities/</b>: 회사, 기관, 인물, 법령, 프로젝트</li>
+          <li><b>concepts/</b>: 개념 설명 — 세액공제, 공급망, 규제</li>
+          <li><b>comparisons/</b>: 비교 — A안 vs B안, 주별 규제 비교</li>
+        </ul>
+      </div>
+      <div class="card span6">
+        <div class="kicker purple">Why local?</div>
+        <h2>“Local”의 의미는 통제권입니다</h2>
+        <p class="muted">자료가 내 컴퓨터/내 서버의 파일로 남기 때문에, 특정 앱이나 LLM 서비스에 종속되지 않습니다.</p>
+        <details open><summary>장점</summary><p>Markdown이라 Obsidian, VS Code, GitHub, Syncthing으로 열 수 있습니다. LLM이 바뀌어도 지식 파일은 그대로 남습니다.</p></details>
+      </div>
+    </section>
+
+    <section class="card span12" id="diagram" style="margin-top:18px">
+      <div class="kicker">Clickable visual map</div>
+      <h2>가장 좋은 구조: Agent가 Wiki를 읽고 쓰는 구조</h2>
+      <div class="flow">
+        <div class="node"><strong>1. 원문/업무 질문</strong><small>기사, 계약서, 법령, 이메일, 회의 메모, “이 이슈 정리해줘” 같은 질문</small></div>
+        <div class="arrow">→</div>
+        <div class="node"><strong>2. Agent가 처리</strong><small>요약, 비교, 리스크 체크, 초안 작성, 빠진 정보 질문, 관련 페이지 검색</small></div>
+        <div class="arrow">→</div>
+        <div class="node"><strong>3. Local LLM Wiki에 축적</strong><small>출처가 붙은 Markdown 페이지로 저장. 다음 질문 때 다시 읽고 더 똑똑해짐</small></div>
+      </div>
+      <p class="mini">예: “Georgia EV tax incentive 관련 새 기사 추가해줘” → Agent가 원문 저장 → tax incentive 페이지 업데이트 → 현대차/LG JV 페이지와 연결 → 다음 질문 때 근거로 사용.</p>
+    </section>
+
+    <section class="card" id="matrix" style="margin-top:18px">
+      <div class="kicker">Decision matrix</div>
+      <h2>비교표</h2>
+      <div class="matrix">
+        <div class="head">질문</div><div class="head">AI Agent</div><div class="head">Local LLM Wiki</div>
+        <div>주된 역할</div><div>일을 실행한다</div><div>지식을 보존한다</div>
+        <div>강점</div><div>속도, 자동화, 초안, 도구 연결</div><div>장기 기억, 출처, 누적 지식, 검색성</div>
+        <div>약점</div><div>세션이 바뀌면 맥락 손실 가능</div><div>스스로 일을 하지는 않음</div>
+        <div>좋은 사용법</div><div>“이 문서 검토하고 리스크 뽑아줘”</div><div>“검토 결과와 근거를 저장해둬”</div>
+        <div class="last">장재호님께 필요한 결론</div><div class="last">업무 보조 변호사처럼 사용</div><div class="last">개인 지식·회사 맥락의 축적 장치로 사용</div>
+      </div>
+    </section>
+
+    <section class="grid" id="examples" style="margin-top:18px">
+      <div class="card span4"><h3>⚖️ 법무 검토</h3><p class="muted">Agent: 계약서 초안의 쟁점과 질문 목록 작성<br/>Wiki: 반복되는 조항, 협상 포인트, 판례/법령 링크 저장</p></div>
+      <div class="card span4"><h3>🏭 제조 현장 이슈</h3><p class="muted">Agent: 노동/안전/환경 이슈별 체크리스트 생성<br/>Wiki: Georgia 현장 특화 규정, 기관, 내부 절차 누적</p></div>
+      <div class="card span4"><h3>🔋 EV/Battery 산업</h3><p class="muted">Agent: 새 기사 요약과 영향 분석<br/>Wiki: 현대차, LGES, IRA, 공급망, 세액공제 페이지 업데이트</p></div>
+    </section>
+
+    <section class="card" id="recommendation" style="margin-top:18px">
+      <div class="kicker good">Recommendation</div>
+      <h2>장재호님께는 이렇게 설명하고 시작하면 됩니다</h2>
+      <ol>
+        <li><b>Agent는 매일 쓰는 업무 파트너</b> — 질문하고, 초안 만들고, 자료를 정리합니다.</li>
+        <li><b>Local LLM Wiki는 장기 지식 창고</b> — 중요한 자료와 판단을 내 컴퓨터/서버에 Markdown으로 보관합니다.</li>
+        <li><b>처음 2주 목표는 “큰 시스템 구축”이 아니라 습관 만들기</b> — 좋은 원문 5개, 핵심 페이지 10개, 질문 10개부터 시작합니다.</li>
+        <li><b>보안/기밀 자료는 별도 규칙 필요</b> — 외부 LLM에 넣어도 되는 자료와 로컬에만 둘 자료를 구분합니다.</li>
+      </ol>
+      <div class="callout"><b>추천 첫 주제:</b> “Hyundai–LGES Georgia battery JV / Savannah EV ecosystem / US manufacturing legal issues / LLM for lawyers” 네 축으로 시작.</div>
+    </section>
+
+    <section class="card" id="faq" style="margin-top:18px">
+      <div class="kicker">FAQ</div>
+      <h2>자주 헷갈리는 질문</h2>
+      <details open><summary>Q1. Local LLM Wiki가 있으면 Agent는 필요 없나요?</summary><p>아닙니다. Wiki는 지식 저장소이고, Agent는 그 지식을 사용해서 실제 일을 처리하는 실행자입니다.</p></details>
+      <details><summary>Q2. 그냥 ChatGPT 대화 저장하면 안 되나요?</summary><p>대화 저장은 시간순 기록입니다. LLM Wiki는 회사/개념/쟁점별로 재정리되고 서로 링크됩니다. 나중에 다시 쓰기 훨씬 좋습니다.</p></details>
+      <details><summary>Q3. 꼭 로컬 LLM을 돌려야 하나요?</summary><p>처음부터 꼭 필요하지 않습니다. 먼저 Markdown Wiki를 만들고, Agent가 정리하게 한 뒤, 기밀성과 비용 요구가 커질 때 로컬 LLM을 붙이면 됩니다.</p></details>
+      <details><summary>Q4. 변호사 업무에서 가장 큰 장점은?</summary><p>반복되는 쟁점, 고객/회사 맥락, 규제 변화, 과거 판단 근거가 축적됩니다. 새 이슈를 볼 때 “처음부터 다시 조사”하지 않아도 됩니다.</p></details>
+    </section>
+
+    <p class="mini" style="margin-top:24px">Prepared for 장재호님 · Standalone HTML · Click the top buttons/sections to navigate.</p>
+  </div>
+</body>
+</html>
