@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>장재호님 준비물 — VPS Agent + Telegram + Obsidian LLM Wiki</title>
+  <style>
+    :root{
+      --bg:#08111f; --bg2:#0d1930; --card:#111f38; --card2:#162844; --ink:#f2f7ff; --muted:#aebcd2;
+      --blue:#66b7ff; --green:#5ce49b; --yellow:#ffd166; --red:#ff7a8a; --purple:#bba7ff; --line:rgba(255,255,255,.13);
+      --shadow:0 20px 70px rgba(0,0,0,.38); --radius:24px;
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",Arial,sans-serif;background:radial-gradient(circle at 12% 0%,#24477d 0,#08111f 35%,#050912 100%);line-height:1.58}
+    .wrap{max-width:1180px;margin:0 auto;padding:30px 22px 80px}.hero{padding:52px 0 30px}.badge{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--line);background:rgba(255,255,255,.06);border-radius:999px;padding:8px 13px;color:#dce8fb;font-weight:800;font-size:14px}
+    h1{font-size:clamp(36px,6vw,70px);line-height:1.02;letter-spacing:-.055em;margin:20px 0 18px}.lead{font-size:clamp(18px,2.2vw,24px);color:#dbe8fa;max-width:900px;margin:0}.correction{margin-top:18px;border-left:5px solid var(--green);background:rgba(92,228,155,.12);padding:16px 18px;border-radius:18px;color:#eafff4}.nav{position:sticky;top:0;z-index:9;margin:22px -22px 34px;padding:12px 22px;background:rgba(6,10,20,.82);backdrop-filter:blur(14px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;gap:10px;overflow:auto}.nav a{text-decoration:none;white-space:nowrap;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);padding:10px 14px;border-radius:999px;color:#e7f0ff;font-weight:900;font-size:14px}.nav a:hover{border-color:rgba(102,183,255,.55);background:rgba(102,183,255,.16)}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}.card{background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.035));border:1px solid var(--line);box-shadow:var(--shadow);border-radius:var(--radius);padding:24px}.span12{grid-column:span 12}.span8{grid-column:span 8}.span6{grid-column:span 6}.span4{grid-column:span 4}.span3{grid-column:span 3}.kicker{font-size:13px;letter-spacing:.09em;text-transform:uppercase;color:var(--blue);font-weight:900}h2{font-size:34px;line-height:1.08;letter-spacing:-.04em;margin:8px 0 16px}h3{font-size:22px;margin:0 0 10px;letter-spacing:-.025em}.muted{color:var(--muted)}.icon{font-size:42px;margin-bottom:10px}.pill{display:inline-block;margin:4px 4px 0 0;border:1px solid var(--line);background:rgba(255,255,255,.06);border-radius:999px;padding:6px 10px;color:#dce9ff;font-size:13px}.must{color:var(--green)}.opt{color:var(--yellow)}.risk{color:var(--red)}.purple{color:var(--purple)}
+    .architecture{display:grid;grid-template-columns:1fr 46px 1fr 46px 1fr;gap:12px;align-items:center}.node{border:1px solid var(--line);background:rgba(255,255,255,.06);border-radius:20px;padding:18px;min-height:150px}.arrow{text-align:center;color:var(--blue);font-size:30px;font-weight:1000}.node b{font-size:18px}.node small{display:block;color:var(--muted);margin-top:8px}.check{list-style:none;margin:0;padding:0}.check li{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.08)}.check li:last-child{border-bottom:0}.box{width:22px;height:22px;flex:0 0 22px;border-radius:7px;border:2px solid var(--green);display:inline-flex;align-items:center;justify-content:center;color:var(--green);font-size:13px;font-weight:900}.box.opt{border-color:var(--yellow);color:var(--yellow)}.box.no{border-color:var(--red);color:var(--red)}
+    .steps{counter-reset:step}.step{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.1)}.step:last-child{border-bottom:0}.num{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--blue),var(--green));color:#06101d;display:flex;align-items:center;justify-content:center;font-weight:1000}.step h3{margin-top:0}.matrix{display:grid;grid-template-columns:1.15fr 1fr 1fr;overflow:hidden;border:1px solid var(--line);border-radius:22px}.matrix div{padding:14px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}.matrix div:nth-child(3n){border-right:0}.matrix .head{background:rgba(255,255,255,.1);font-weight:1000}.matrix .last{border-bottom:0}.callout{border-left:5px solid var(--blue);background:rgba(102,183,255,.12);border-radius:18px;padding:17px 19px;margin:15px 0}.warnbox{border-left-color:var(--red);background:rgba(255,122,138,.12)}details{border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.05);padding:16px;margin:12px 0}summary{cursor:pointer;font-weight:1000}.btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}.btn{text-decoration:none;border:1px solid var(--line);background:rgba(255,255,255,.08);border-radius:14px;padding:12px 15px;font-weight:1000}.btn.primary{border:0;background:linear-gradient(135deg,#66b7ff,#5ce49b);color:#06101d}.mini{font-size:13px;color:var(--muted)} code{background:rgba(0,0,0,.28);padding:2px 6px;border-radius:7px;color:#eaf3ff}
+    @media(max-width:860px){.span8,.span6,.span4,.span3{grid-column:span 12}.architecture{grid-template-columns:1fr}.arrow{transform:rotate(90deg)}.matrix{grid-template-columns:1fr}.matrix div{border-right:0}.matrix .head:nth-child(2),.matrix .head:nth-child(3){display:none}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero" id="top">
+      <div class="badge">📋 장재호님 준비물 체크리스트</div>
+      <h1>Hostinger VPS에 개인 Agent를 만들고,<br/>Telegram과 Obsidian Wiki를 연결하기</h1>
+      <p class="lead">목표는 로컬 모델을 돌리는 것이 아니라, <b>로컬 PC/Obsidian에 지식 DB를 쌓고</b> VPS의 Agent가 Telegram을 통해 그 Wiki를 읽고 쓰게 만드는 것입니다.</p>
+      <div class="correction"><b>용어 정리:</b> 여기서 “로컬 LLM Wiki”는 Gemma 같은 로컬 LLM 모델이 아닙니다. <b>장재호님 PC의 Obsidian Markdown vault/wiki DB</b>를 뜻합니다.</div>
+      <div class="btns"><a class="btn primary" href="#must">필수 준비물</a><a class="btn" href="#architecture">구조 보기</a><a class="btn" href="#sequence">진행 순서</a><a class="btn" href="#security">보안 원칙</a></div>
+    </section>
+
+    <nav class="nav">
+      <a href="#summary">요약</a><a href="#must">준비물</a><a href="#architecture">구조</a><a href="#accounts">계정/토큰</a><a href="#localpc">로컬 PC</a><a href="#sequence">순서</a><a href="#security">보안</a><a href="#decisions">결정사항</a><a href="#firsttest">첫 테스트</a>
+    </nav>
+
+    <section class="grid" id="summary">
+      <div class="card span12">
+        <div class="kicker">Executive summary</div>
+        <h2>장재호님이 준비해야 할 것은 5가지입니다</h2>
+        <div class="grid">
+          <div class="card span4"><div class="icon">🖥️</div><h3>1. Hostinger VPS</h3><p class="muted">Agent가 24시간 대기할 서버입니다. Ubuntu VPS면 충분합니다.</p><span class="pill must">필수</span></div>
+          <div class="card span4"><div class="icon">🤖</div><h3>2. Telegram Bot</h3><p class="muted">휴대폰에서 Agent와 대화하는 입구입니다. BotFather로 만듭니다.</p><span class="pill must">필수</span></div>
+          <div class="card span4"><div class="icon">🧠</div><h3>3. LLM API Key</h3><p class="muted">초기에는 로컬 모델 대신 OpenRouter/OpenAI/Anthropic API 사용을 권장합니다.</p><span class="pill must">필수</span></div>
+          <div class="card span4"><div class="icon">📚</div><h3>4. Obsidian Vault</h3><p class="muted">장재호님 로컬 PC에 실제 Wiki DB가 되는 Markdown 폴더입니다.</p><span class="pill must">필수</span></div>
+          <div class="card span4"><div class="icon">🔄</div><h3>5. 동기화 방식</h3><p class="muted">VPS의 Wiki와 PC Obsidian을 연결합니다. Syncthing 또는 Obsidian Sync.</p><span class="pill must">필수</span></div>
+          <div class="card span4"><div class="icon">🔐</div><h3>6. 보안 기준</h3><p class="muted">공개자료/기밀자료를 나누고, 처음에는 공개자료 기반으로만 테스트합니다.</p><span class="pill must">필수</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="architecture" style="margin-top:18px">
+      <div class="kicker">Target architecture</div>
+      <h2>목표 구조</h2>
+      <div class="architecture">
+        <div class="node"><b>장재호님 Telegram</b><small>기사 링크, 메모, 질문, “wiki 처리” 요청을 보냄</small></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>Hostinger VPS Agent</b><small>Hermes Agent + Telegram Gateway + Wiki 작업 도구 실행</small></div>
+        <div class="arrow">↔</div>
+        <div class="node"><b>로컬 PC Obsidian Wiki DB</b><small>Markdown vault. Syncthing/Obsidian Sync로 VPS와 동기화</small></div>
+      </div>
+      <div class="callout"><b>핵심:</b> VPS는 “항상 켜진 실행자”, 로컬 PC Obsidian은 “지식 저장소/읽는 화면”입니다.</div>
+    </section>
+
+    <section class="grid" id="must" style="margin-top:18px">
+      <div class="card span6">
+        <div class="kicker must">Must-have</div>
+        <h2>필수 준비물</h2>
+        <ul class="check">
+          <li><span class="box">✓</span><div><b>Hostinger 계정 + VPS 결제 수단</b><br><span class="muted">Ubuntu 24.04 LTS 선택 권장. RAM 2GB도 가능하지만 4GB면 안정적입니다.</span></div></li>
+          <li><span class="box">✓</span><div><b>SSH 접속 가능한 PC</b><br><span class="muted">Mac Terminal 또는 Windows Terminal/PowerShell.</span></div></li>
+          <li><span class="box">✓</span><div><b>Telegram 계정</b><br><span class="muted">BotFather에서 개인 봇 생성 필요.</span></div></li>
+          <li><span class="box">✓</span><div><b>LLM Provider API Key</b><br><span class="muted">OpenRouter 1순위 권장. 대안: OpenAI, Anthropic, Gemini.</span></div></li>
+          <li><span class="box">✓</span><div><b>Obsidian 설치</b><br><span class="muted">장재호님 로컬 PC에 설치. Wiki vault를 여는 앱입니다.</span></div></li>
+        </ul>
+      </div>
+      <div class="card span6">
+        <div class="kicker opt">Nice-to-have</div>
+        <h2>있으면 좋은 것</h2>
+        <ul class="check">
+          <li><span class="box opt">+</span><div><b>도메인</b><br><span class="muted">필수는 아닙니다. 나중에 웹 대시보드/API를 붙일 때 유용합니다.</span></div></li>
+          <li><span class="box opt">+</span><div><b>Obsidian Sync 구독</b><br><span class="muted">가장 편한 동기화. 비용을 피하려면 Syncthing 사용.</span></div></li>
+          <li><span class="box opt">+</span><div><b>GitHub Private Repo</b><br><span class="muted">Wiki 백업/버전관리용. Git에 익숙하면 좋습니다.</span></div></li>
+          <li><span class="box opt">+</span><div><b>전용 이메일</b><br><span class="muted">나중에 메일 ingest를 붙일 경우 유용합니다.</span></div></li>
+          <li><span class="box opt">+</span><div><b>1Password/Bitwarden</b><br><span class="muted">API key, bot token, SSH key 관리에 권장.</span></div></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="grid" id="accounts" style="margin-top:18px">
+      <div class="card span8">
+        <div class="kicker">Accounts & tokens</div>
+        <h2>미리 만들어둘 계정/토큰</h2>
+        <div class="matrix">
+          <div class="head">항목</div><div class="head">왜 필요한가</div><div class="head">준비 결과물</div>
+          <div>Hostinger</div><div>VPS 생성/관리</div><div>VPS IP, root 또는 sudo user</div>
+          <div>Telegram BotFather</div><div>Agent와 대화할 봇 생성</div><div>Bot token</div>
+          <div>Telegram user ID</div><div>장재호님만 봇을 쓰게 제한</div><div>숫자 user ID</div>
+          <div>OpenRouter/OpenAI 등</div><div>Agent의 LLM 호출</div><div>API key</div>
+          <div class="last">Obsidian/Syncthing</div><div class="last">Wiki DB 동기화</div><div class="last">Vault 경로 또는 device ID</div>
+        </div>
+      </div>
+      <div class="card span4">
+        <div class="kicker risk">Do not share casually</div>
+        <h2>민감정보</h2>
+        <p class="muted">아래 값은 Telegram 일반방에 올리지 않는 것이 좋습니다.</p>
+        <ul>
+          <li>Telegram bot token</li>
+          <li>LLM API key</li>
+          <li>SSH private key</li>
+          <li>VPS root password</li>
+          <li>회사 내부자료/계약서 원문</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="grid" id="localpc" style="margin-top:18px">
+      <div class="card span6">
+        <div class="kicker">Local PC Wiki DB</div>
+        <h2>장재호님 PC에서 준비할 것</h2>
+        <ul class="check">
+          <li><span class="box">✓</span><div><b>Obsidian 설치</b><br><span class="muted">Mac/Windows 모두 가능.</span></div></li>
+          <li><span class="box">✓</span><div><b>Vault 폴더 생성</b><br><span class="muted">예: <code>Jaeho LLM Wiki</code></span></div></li>
+          <li><span class="box">✓</span><div><b>초기 폴더 구조</b><br><span class="muted"><code>raw/ entities/ concepts/ comparisons/ queries/</code></span></div></li>
+          <li><span class="box">✓</span><div><b>동기화 앱 선택</b><br><span class="muted">Syncthing 또는 Obsidian Sync 중 하나.</span></div></li>
+        </ul>
+      </div>
+      <div class="card span6">
+        <div class="kicker">Sync choice</div>
+        <h2>동기화 추천</h2>
+        <details open><summary>1순위: Syncthing</summary><p>무료, 오픈소스, 파일 그대로 동기화. 다만 초기 설정이 조금 필요하고 PC가 켜져 있어야 최신 상태가 됩니다.</p></details>
+        <details><summary>2순위: Obsidian Sync</summary><p>가장 편합니다. 유료지만 설정이 쉽고 모바일/PC 연동이 깔끔합니다.</p></details>
+        <details><summary>3순위: GitHub Private Repo</summary><p>버전관리는 좋지만 일반 사용자에게는 git 충돌/커밋 관리가 번거로울 수 있습니다.</p></details>
+      </div>
+    </section>
+
+    <section class="card" id="sequence" style="margin-top:18px">
+      <div class="kicker">Build sequence</div>
+      <h2>진행 순서</h2>
+      <div class="steps">
+        <div class="step"><div class="num">1</div><div><h3>VPS 만들기</h3><p class="muted">Hostinger에서 Ubuntu VPS 생성. IP 주소와 SSH 접속 정보를 확보합니다.</p></div></div>
+        <div class="step"><div class="num">2</div><div><h3>서버 기본 보안</h3><p class="muted">업데이트, sudo user, SSH key, 방화벽, fail2ban 정도만 먼저 설정합니다.</p></div></div>
+        <div class="step"><div class="num">3</div><div><h3>Hermes Agent 설치</h3><p class="muted">VPS에 Hermes 설치 후 CLI에서 간단한 질문이 작동하는지 확인합니다.</p></div></div>
+        <div class="step"><div class="num">4</div><div><h3>Telegram Bot 연결</h3><p class="muted">BotFather token과 장재호님 user ID를 넣고 Hermes gateway를 서비스로 실행합니다.</p></div></div>
+        <div class="step"><div class="num">5</div><div><h3>Wiki Vault 만들기</h3><p class="muted">VPS와 로컬 PC 양쪽에 같은 Markdown vault를 만들고 동기화를 붙입니다.</p></div></div>
+        <div class="step"><div class="num">6</div><div><h3>첫 ingest 테스트</h3><p class="muted">공개 기사 링크 1개를 Telegram으로 보내고 raw 저장, 요약 page, index/log 업데이트를 확인합니다.</p></div></div>
+      </div>
+    </section>
+
+    <section class="grid" id="security" style="margin-top:18px">
+      <div class="card span6">
+        <div class="kicker risk">Security policy</div>
+        <h2>초기 보안 원칙</h2>
+        <ul class="check">
+          <li><span class="box">✓</span><div><b>공개자료만 1차 파일럿</b><br><span class="muted">보도자료, 공개 기사, 공개 법령/가이드.</span></div></li>
+          <li><span class="box no">!</span><div><b>회사 내부자료는 초기 금지</b><br><span class="muted">계약서, 내부 이메일, 법무 의견, HR/노무 민감자료.</span></div></li>
+          <li><span class="box">✓</span><div><b>Telegram 사용자는 allowlist</b><br><span class="muted">장재호님 Telegram ID만 허용.</span></div></li>
+          <li><span class="box">✓</span><div><b>API key는 VPS .env에만 저장</b><br><span class="muted">채팅방/노트/스크린샷에 노출 금지.</span></div></li>
+        </ul>
+      </div>
+      <div class="card span6">
+        <div class="kicker">Scope control</div>
+        <h2>처음에 하지 말 것</h2>
+        <ul>
+          <li>로컬 모델/GPU 서버 구축</li>
+          <li>Vector DB/RAG부터 크게 설계</li>
+          <li>회사 내부자료 자동 처리</li>
+          <li>복잡한 웹 대시보드</li>
+          <li>여러 명이 쓰는 공용 봇</li>
+        </ul>
+        <div class="callout warnbox"><b>이유:</b> 초기 목표는 기술 과시가 아니라 “Telegram으로 자료를 보내면 Obsidian Wiki에 지식이 쌓이는지” 검증하는 것입니다.</div>
+      </div>
+    </section>
+
+    <section class="card" id="decisions" style="margin-top:18px">
+      <div class="kicker">Decisions needed</div>
+      <h2>장재호님이 결정해야 할 것</h2>
+      <div class="matrix">
+        <div class="head">결정</div><div class="head">추천</div><div class="head">이유</div>
+        <div>VPS 사양</div><div>Ubuntu 24.04 / 2~4GB RAM</div><div>Agent+Telegram+Wiki 작업에는 충분</div>
+        <div>LLM Provider</div><div>OpenRouter 우선</div><div>여러 모델 선택 가능, 설정 단순</div>
+        <div>동기화</div><div>Syncthing 또는 Obsidian Sync</div><div>Git보다 실사용 부담 낮음</div>
+        <div>파일럿 자료</div><div>공개자료만</div><div>변호사/회사 기밀 리스크 최소화</div>
+        <div class="last">위키 주제</div><div class="last">EV/Battery + Georgia + Legal + AI for lawyers</div><div class="last">장재호님 업무 맥락과 직접 연결</div>
+      </div>
+    </section>
+
+    <section class="grid" id="firsttest" style="margin-top:18px">
+      <div class="card span8">
+        <div class="kicker good">First success test</div>
+        <h2>첫 성공 기준</h2>
+        <p class="muted">아래 5개가 되면 1차 구축은 성공입니다.</p>
+        <ol>
+          <li>장재호님이 Telegram에서 개인 Agent에게 메시지를 보낼 수 있다.</li>
+          <li>Agent가 공개 기사 링크를 읽고 요약한다.</li>
+          <li>원문이 <code>raw/articles/</code>에 저장된다.</li>
+          <li>관련 Wiki page가 생성/업데이트된다.</li>
+          <li>장재호님 PC의 Obsidian에서 그 page가 보인다.</li>
+        </ol>
+      </div>
+      <div class="card span4">
+        <div class="kicker">Pilot topics</div>
+        <h2>첫 주제 4개</h2>
+        <span class="pill">Hyundai–LGES JV</span>
+        <span class="pill">Savannah EV ecosystem</span>
+        <span class="pill">US manufacturing legal issues</span>
+        <span class="pill">LLM for lawyers</span>
+      </div>
+    </section>
+
+    <p class="mini" style="margin-top:24px">Prepared for 장재호님 · Standalone clickable HTML · No confidential information included.</p>
+  </div>
+</body>
+</html>
